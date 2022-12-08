@@ -11,9 +11,10 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./empleado.component.css']
 })
 export class EmpleadoComponent implements OnInit {
-  empleado: Empleado[] = [];
-  cargo: Cargo[] = [];
+  empleado: Empleado[]=[];
   visible: boolean = false;
+  cargo: Cargo[]=[];
+
   constructor(
     private empleadoService: EmpleadoControllerService,
     private cargoService: CargoControllerService,
@@ -22,20 +23,21 @@ export class EmpleadoComponent implements OnInit {
   ) { }
 
   formEmpleado: FormGroup = this.fb.group({
-    id: [],
-    nombre: [],
-    fechaIngreso: [],
-    cargoId: [],
-    disponible: []
+    id:[],
+    nombre:[],
+    fechaIngreso:[],
+    cargoId:[],
+    disponible:[]
   })
+
   ngOnInit(): void {
-    this.empleadoService.find().subscribe(data => this.empleado = data)
-    this.cargoService.find().subscribe(data => this.cargo = data)
+    this.empleadoService.find().subscribe(data=>this.empleado=data)
+    this.cargoService.find().subscribe(data=>this.cargo=data)
   }
 
   eliminar(id: string): void {
-    this.empleadoService.deleteById({ id }).subscribe(() => {
-      this.empleado = this.empleado.filter(x => x.id !== id);
+    this.empleadoService.deleteById({id}).subscribe(()=>{
+      this.empleado=this.empleado.filter(x => x.id !== id);
       this.messageService.info('Registro Eliminado!')
     })
   }
@@ -45,20 +47,21 @@ export class EmpleadoComponent implements OnInit {
   }
 
   ocultar(): void {
-    this.visible = false
+    this.visible=false
     this.formEmpleado.reset()
   }
 
   mostrar(data?: Empleado): void {
     if (data?.id) {
-      this.formEmpleado.setValue(data)
+      this.formEmpleado.setValue({...data, 'disponible':String(data.disponible)})
     }
-    this.visible = true
+    this.visible=true
   }
 
   guardar(): void {
+    console.log(this.formEmpleado.value)
     if (this.formEmpleado.value.id) {
-      this.empleadoService.updateById({ 'id': this.formEmpleado.value.id, 'body': this.formEmpleado.value }).subscribe(
+      this.empleadoService.updateById({'id': this.formEmpleado.value.id,'body':this.formEmpleado.value}).subscribe(
         () => {
           this.empleado = this.empleado.map(obj => {
             if (obj.id === this.formEmpleado.value.id)
@@ -70,8 +73,8 @@ export class EmpleadoComponent implements OnInit {
       )
     } else {
       delete this.formEmpleado.value.id
-      this.empleadoService.create({ body: this.formEmpleado.value }).subscribe((datoAgregado) => {
-        this.empleado = [...this.empleado, datoAgregado]
+      this.empleadoService.create({body:this.formEmpleado.value}).subscribe((datoAgregado)=>{
+        this.empleado = [...this.empleado,datoAgregado]
         this.messageService.success('Registro creado con Exito!')
       })
 

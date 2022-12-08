@@ -22,6 +22,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 @NgModule({
   declarations: [
@@ -33,21 +34,24 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
   imports: [
     CommonModule,
     MantenimientoRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+
     NzTableModule,
     NzDividerModule,
     NzIconModule,
     NzGridModule,
     NzButtonModule,
-    NzPopoverModule,
+    NzPopconfirmModule,
     NzMessageModule,
     NzModalModule,
-    FormsModule,
-    ReactiveFormsModule,
+    NzFormModule,
     NzInputModule,
     NzRadioModule,
     NzDatePickerModule,
     NzSelectModule,
-    NzFormModule
+    NzPopoverModule
+
   ]
 })
 export class MantenimientoModule { }
